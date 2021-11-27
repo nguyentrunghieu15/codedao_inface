@@ -29,22 +29,28 @@ void sort_list(node *head);
 bool cmp_name(char full_name1[], char full_name2[]);
 bool check_seach(char hint[], char idex[]);
 void search(node * head,char hint[]);
+void thong_ke(node *head);
 int main(){    
     node* head; // con tro đầu danh sách
     head=in_put();
     fflush(stdin);
     while(true){
-        system("cls");
-        cout<<"1.Exit"<<endl;
-        cout<<"2.In Danh Sach"<<endl;
-        cout<<"3.Them sinh vien"<<endl;
-        cout<<"4.Xoa sinh vien"<<endl;
-        cout<<"5.Cap nhat thong tin"<<endl;
-        cout<<"6.Sua thong tin"<<endl;
-        cout<<"7.Sap xep A->Z"<<endl;
-        cout<<"8.Tim kiem theo ten"<<endl;
         int q;
-        cin>>q;fflush(stdin);
+        do{
+            system("cls");
+            cout<<"1.Exit"<<endl;
+            cout<<"2.In Danh Sach"<<endl;
+            cout<<"3.Them sinh vien"<<endl;
+            cout<<"4.Xoa sinh vien"<<endl;
+            cout<<"5.Cap nhat thong tin"<<endl;
+            cout<<"6.Sua thong tin"<<endl;
+            cout<<"7.Sap xep A->Z"<<endl;
+            cout<<"8.Tim kiem theo ten"<<endl;
+            cout<<"9.Thong ke"<<endl;
+            char a[2];
+            fflush(stdin);cin>>a;
+            q=atoi(a);
+        }while(q>9||q<1);
         switch(q){
             case 1: return 0;
             case 2: {
@@ -103,8 +109,14 @@ int main(){
                 system("cls");
                 cout<<"Nhap thong tin:";
                 char hint[30];
-                gets(hint);
+                fflush(stdin);gets(hint);
                 search(head,hint);
+                getch();
+                break;
+            }
+            case 9:{
+                system("cls");
+                thong_ke(head);
                 getch();
                 break;
             }
@@ -170,6 +182,9 @@ void processing_data(sinh_vien *a, char b[]){
     a->graduate=atoi(data[4]);
 }
 node* delete_node(node *head,int x){
+    if(x<1||x>num_node){
+        return head;
+    }
     if(x==1){
         if(head->next==NULL){
             delete(head);
@@ -248,6 +263,9 @@ void update_data(node *head){
     fp.close();
 }
 void fix_data(node *head, int x){
+    if(x<1||x>num_node){
+        return;
+    }
     node *cur=head;
         for(int i=0;i<x-1;i++)
             cur=cur->next;
@@ -338,13 +356,9 @@ bool cmp_name(char full_name1[], char full_name2[]){
        }
     name2[couting]='\0';
     strrev(name2);
-    int len_max=strlen(name1)>strlen(name2)?strlen(name1):strlen(name2);
-    for(i=0;i<len_max;i++){
-        if(toascii(name1[i])>toascii(name2[i])){
-            return true;
-        }
-    }
-    return false;
+    if(strcmp(name1,name2)>0)
+        return true;
+    else return false;
 }
 void search(node * head,char hint[]){
     node* cur;
@@ -371,4 +385,38 @@ bool check_seach(char hint[], char idex[]){
             return true;
     }
     return false;
+}
+void thong_ke(node *head){
+    int xuat_sac=0,gioi=0,kha=0,trung_binh=0,yeu=0;
+    int so_hs_nghi_hoc=0;
+    int diem_cao_nhat=0;
+    int diem_thap_nhat=40;
+    int diem_trung_binh=0;
+    node* cur;
+    for(cur=head;cur!=NULL;cur=cur->next){
+        if(cur->data.avg_mark>=36)
+            xuat_sac++;
+        if(cur->data.avg_mark<36&&cur->data.avg_mark>=32)
+            gioi++;
+        if(cur->data.avg_mark<32&&cur->data.avg_mark>=25)
+            kha++;
+        if(cur->data.avg_mark<25&&cur->data.avg_mark>=20)
+            trung_binh++;
+        if(diem_cao_nhat<cur->data.avg_mark)
+            diem_cao_nhat=cur->data.avg_mark;
+        if(diem_thap_nhat>cur->data.avg_mark)
+            diem_thap_nhat=cur->data.avg_mark;
+        if(cur->data.graduate==0)
+            so_hs_nghi_hoc++;
+        diem_trung_binh+=cur->data.avg_mark;
+    }
+    yeu=num_node-xuat_sac-gioi-kha-trung_binh;
+    cout<<"\tDiem trung binh:"<<diem_trung_binh*1.0/(num_node*10)<<endl;
+    cout<<"\tSinh vien :\t-Xuat sac:"<<xuat_sac*100.0/num_node<<"%"<<endl;
+    cout<<"\t           \t-Gioi:"<<gioi*100.0/num_node<<"%"<<endl;
+    cout<<"\t           \t-Kha:"<<kha*100.0/num_node<<"%"<<endl;
+    cout<<"\t           \t-Trung Binh:"<<trung_binh*100.0/num_node<<"%"<<endl;
+    cout<<"\t           \t-Yeu:"<<yeu*100.0/num_node<<"%"<<endl;
+    cout<<"\n\t\t\t Diem cao nhat:"<<diem_cao_nhat*1.0/10<<endl;
+    cout<<"\n\t\t\t Diem thap Nhat:"<<diem_thap_nhat*1.0/10<<endl;
 }
