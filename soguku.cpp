@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
-int solanlap=0;
+#include <fstream>
+#include <iostream>
 int **columns;
 int **row;
 int **quare;
@@ -27,22 +28,33 @@ int search_quare(int i,int j)
         return 8;
     else if(i>=7 &&j>=7)
         return 9;
-
+    return 0;
 }
 void in_put_data()
 {
-    printf("Nhap so du lieu dau vao:");  // :Lan luot theo thu tu hang-cot-gia tri
-    int n;
-    scanf("%d", &n);
-    for(int k=0;k<n;k++)
-    {
-        int i,j;
-        scanf("%d%d",&i,&j);
-        scanf("%d",&broad[i][j]);
-        row[i][broad[i][j]]=1;
-        columns[j][broad[i][j]]=1;
-        quare[search_quare(i,j)][broad[i][j]]=1;
+    freopen("data.txt","r",stdin);
+    // printf("Nhap ma tran du lieu dau vao:");  // :Lan luot theo thu tu hang-cot-gia tri
+    for(int i=1;i<=9;i++){
+        for(int j=1;j<=9;j++){
+            scanf("%d",&broad[i][j]);
+            if(broad[i][j]!=0){
+                row[i][broad[i][j]]=1;
+                columns[j][broad[i][j]]=1;
+                quare[search_quare(i,j)][broad[i][j]]=1;
+            }
+        }
     }
+    // int n=9;
+    // // scanf("%d", &n);
+    // for(int k=0;k<n;k++)
+    // {
+    //     int i,j;
+    //     scanf("%d%d",&i,&j);
+    //     scanf("%d",&broad[i][j]);
+    //     row[i][broad[i][j]]=1;
+    //     columns[j][broad[i][j]]=1;
+    //     quare[search_quare(i,j)][broad[i][j]]=1;
+    // }
 }
 int check(int i,int j,int k)
 {
@@ -58,8 +70,9 @@ void out_put(int n)
                 printf("%3d",broad[i][j]);
             printf("\n");
         }
+    printf("\n");
 }
-int Try(int i,int j)
+void Try(int i,int j)
 {
             if(broad[i][j]==0)
             {
@@ -73,7 +86,6 @@ int Try(int i,int j)
                         quare[search_quare(i,j)][k]=1;
                         if(i==9&&j==9)
                                 {
-                                    printf("Ow day\n");
                                     out_put(9);
                                     // exit(0);
                                 }
@@ -95,7 +107,6 @@ int Try(int i,int j)
                   {
                      if(i==9&&j==9)
                             {
-                                    printf("O day ne");
                                     out_put(9);
                                     // exit(0);
                             }

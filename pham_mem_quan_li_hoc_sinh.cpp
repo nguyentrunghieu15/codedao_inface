@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include <iostream>
 #include <conio.h>
 #include <fstream>
 #include <stdlib.h>
@@ -79,7 +79,7 @@ int main(){
                 }
                 browse_list(head);
                 int i;
-                cout<<"STT sinh vien can xoa:";cin>>i;fflush(stdin);
+                cout<<"STT sinh vien can xoa:";fflush(stdin);cin>>i;
                 head=delete_node(head,i);
                 break;
             }
