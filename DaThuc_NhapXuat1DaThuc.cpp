@@ -57,6 +57,8 @@ double TinhDaThuc(DATHUC B,double x){
     return slove;
 }
 int main() {
+    int dsadasdsadsd;
+    
     DATHUC *B; B = Nhap();
     cout << "Da thuc vua nhap la: "; Xuat(*B);
     double x; cin >> x;
